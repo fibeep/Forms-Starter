@@ -51,8 +51,12 @@ def compliments():
 @app.route('/compliments_results')
 def compliments_results():
     """Show the user some compliments."""
+    compliment_list = random.sample(list_of_compliments, k=int(request.args.get('num_compliments')))
+    
     context = {
-        # TODO: Enter your context variables here.
+        'name' : request.args.get('users_name'),
+        'want_compliments' : request.args.get('wants_compliments'),
+        'compliments' : compliment_list
     }
 
     return render_template('compliments_results.html', **context)
@@ -74,13 +78,13 @@ animal_to_fact = {
 def animal_facts():
     """Show a form to choose an animal and receive facts."""
 
-    # TODO: Collect the form data and save as variables
-
     context = {
-        # TODO: Enter your context variables here for:
         # - the list of all animals (get from animal_to_fact)
+        'animals' : animal_to_fact.keys(),
         # - the chosen animal fact (may be None if the user hasn't filled out the form yet)
+        'fact' : animal_to_fact.get(request.args.get('animal'), "")
     }
+
     return render_template('animal_facts.html', **context)
 
 
@@ -106,7 +110,7 @@ def save_image(image, filter_type):
     image.filename = new_file_name
 
     # Construct full file path
-    file_path = os.path.join(app.root_path, 'static/images', file_name)
+    file_path = os.path.join(app.root_path, 'static/images', new_file_name)
     
     # Save the image
     image.save(file_path)
