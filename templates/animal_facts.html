@@ -13,21 +13,18 @@ Animal Facts
         <label>
             Which animal do you want facts on?
 
-            <!-- TODO: Use a for loop to show one option element for each 
-                animal. -->
+           
             <select name="animal">
+                    <option value=""></option>
                 {% for animal in animals %}
                     <option value="{{animal}}">{{animal}}</option>
                 {% endfor %}
             </select>
         </label>
-
-        <input type="submit" value="Get Fact!">
     </fieldset>
 </form>
 
-<!-- TODO: If an animal was chosen, show the section below with the appropriate 
-    animal fact. -->
+
 {% if fact != "" %}
     <section id="form_results">
         <p>
@@ -37,5 +34,16 @@ Animal Facts
             <em>{{fact}}</em>
         </p>
     </section>
+{% else %}
+    Please select an animal
 {% endif %}
+
+<script>
+let animalSelect = document.querySelector('select')
+animalSelect.addEventListener("input", event => {
+    document.querySelector('form').submit()
+})
+</script>
+
 {% endblock %}
+
