@@ -5,6 +5,9 @@ import json
 import os
 import random
 import requests
+from dotenv import load_dotenv
+load_dotenv()
+
 
 app = Flask(__name__)
 
@@ -139,11 +142,10 @@ def image_filter():
         # Get the image file submitted by the user
         image = request.files.get('users_image')
 
-        # TODO: call `save_image()` on the image & the user's chosen filter type, save the returned
-        # value as the new file path
+       
         new_file_path = save_image(image, filter_type)
 
-        # TODO: Call `apply_filter()` on the file path & filter type
+        
         
         apply_filter(new_file_path, filter_type)
 
@@ -158,7 +160,7 @@ def image_filter():
 
     else: # if it's a GET request
         context = {
-            # TODO: Add context variable here for the full list of filter types
+            
             'filter_types' : filter_types_dict.keys(),
             'img_url' : ""
         }
@@ -169,7 +171,7 @@ def image_filter():
 # GIF SEARCH ROUTE
 ################################################################################
 
-API_KEY = 'LIVDSRZULELA'
+API_KEY = os.getenv('API_KEY')
 TENOR_URL = 'https://api.tenor.com/v1/search'
 pp = PrettyPrinter(indent=4)
 
@@ -177,7 +179,7 @@ pp = PrettyPrinter(indent=4)
 def gif_search():
     """Show a form to search for GIFs and show resulting GIFs from Tenor API."""
     if request.method == 'POST':
-        # TODO: Get the search query & number of GIFs requested by the user, store each as a 
+        # Get the search query & number of GIFs requested by the user, store each as a 
         # variable
         search_query = request.form.get('search_query')
         num_gif = int(request.form.get('quantity'))
@@ -185,7 +187,7 @@ def gif_search():
         response = requests.get(
             TENOR_URL,
             {
-                # TODO: Add in key-value pairs for:
+                 # Add in key-value pairs for:
                 'q': search_query,
                 'key': API_KEY,
                 'limit': num_gif
